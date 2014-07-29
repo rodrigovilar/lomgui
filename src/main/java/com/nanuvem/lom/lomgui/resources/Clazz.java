@@ -1,4 +1,4 @@
-package com.nanuvem.lom.lomgui.business;
+package com.nanuvem.lom.lomgui.resources;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;

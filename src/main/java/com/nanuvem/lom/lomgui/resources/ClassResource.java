@@ -9,7 +9,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 
-import com.nanuvem.lom.lomgui.business.Clazz;
 import com.nanuvem.restest.TypedResource;
 
 public class ClassResource extends TypedResource<Clazz> {

@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.nanuvem.lom.lomgui.resources.Clazz;
+
 public class LomBusinessFacade {
 
 	private static LomBusinessFacade singleton;
@@ -42,16 +44,17 @@ public class LomBusinessFacade {
 		return classes.values();
 	}
 
-	public void removeClazz(String name){
+	public boolean removeClazz(String name){
 		for(Clazz clazz : this.classes.values()){
 			if(clazz.getName().equals(name)){
-				removeClazz(clazz.getId());
+				return removeClazz(clazz.getId());
 			}
 		}
+		return false;
 	}
 
-	public void removeClazz(Long id){
-		this.classes.remove(id);
+	public boolean removeClazz(Long id){
+		return this.classes.remove(id) != null;
 	}
 
 	public void removeAllClazz(){

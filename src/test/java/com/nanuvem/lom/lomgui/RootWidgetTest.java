@@ -3,38 +3,52 @@ package com.nanuvem.lom.lomgui;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import com.nanuvem.lom.lomgui.business.Clazz;
 import com.nanuvem.lom.lomgui.resources.ClassResource;
+import com.nanuvem.lom.lomgui.resources.Clazz;
 
 public class RootWidgetTest {
 
 	private static final int DEFAULT_TIMEOUT = 10;
-	private WebDriver driver;
+	private static WebDriver driver;
+	private static ClassResource clazzResource;
+	private static Clazz clazz;
 
-	@Before
-	public void setUp() {
+	@BeforeClass
+	public static void setUp() {
 		driver = new FirefoxDriver();
+		clazzResource = new ClassResource();
+		clazz = new Clazz((long) 0);
+		clazz.setName("Cliente");
+		clazzResource.post(clazz);
 	}
 
-	@After
-	public void tearDown() {
+	@AfterClass
+	public static void tearDown() {
 		driver.close();
+		clazzResource.delete(clazz.getId().toString());
 	}
 
 	@Test
 	public void scenarioRootWidget() {
-		Clazz clazz = new Clazz((long) 0);
-		clazz.setName("Cliente");
-		ClassResource clazzResource = new ClassResource();
-		clazzResource.post(clazz);
+		driver.get("http://localhost:8080/lomgui/");
 
+		String idName = "class_" + clazz.getName();
+		WebElement clientLi = ElementHelper.waitAndFindElementById(driver,
+				idName, DEFAULT_TIMEOUT);
+
+		assertNotNull("Client Class not found", clientLi);
+		assertEquals(clazz.getName(), clientLi.getText());
+	}
+
+	@Test
+	public void scenarioRootWidget2() {
 		driver.get("http://localhost:8080/lomgui/");
 
 		WebElement clientLi = ElementHelper.waitAndFindElementById(driver,
