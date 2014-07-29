@@ -17,7 +17,7 @@
       var ul,
         _this = this;
       ul = $("<ul>");
-      ul(attr("id", "classes"));
+      ul.attr("id", "classes");
       this.page.append(ul);
       return $.each(jsonObj, function(i, clazz) {
         return _this.drawLine(ul, clazz);

@@ -7,7 +7,7 @@ class UlRootWidget
 
     drawList: (jsonObj) ->
         ul = $("<ul>")
-        ul attr "id", "classes"
+        ul.attr "id", "classes"
         @page.append ul
         $.each jsonObj, (i, clazz) =>
             @drawLine(ul, clazz)
