@@ -36,7 +36,7 @@ public class RootWidgetTest {
 	}
 
 	@Test
-	public void scenarioRootWidget() {
+	public void scenarioDefaultRootWidget() {
 		driver.get("http://localhost:8080/lomgui/");
 
 		String idName = "class_" + clazz.getName();
@@ -48,14 +48,31 @@ public class RootWidgetTest {
 	}
 
 	@Test
-	public void scenarioRootWidget2() {
+	public void scenarioChangeToTableRootWidget() {
+		final String idClasses = "classes";
+
+		// change widget
+
 		driver.get("http://localhost:8080/lomgui/");
+		WebElement tableElement = ElementHelper.waitAndFindElementById(driver,
+				idClasses, DEFAULT_TIMEOUT);
 
-		WebElement clientLi = ElementHelper.waitAndFindElementById(driver,
-				"class_Cliente", DEFAULT_TIMEOUT);
+		assertNotNull("Table Element not found", tableElement);
+		assertEquals("tr", tableElement.getTagName());
+	}
 
-		assertNotNull("Client Class not found", clientLi);
-		assertEquals("Cliente", clientLi.getText());
+	@Test
+	public void scenarioChangeToUlRootWidget() {
+		final String idClasses = "classes";
+
+		// change widget
+
+		driver.get("http://localhost:8080/lomgui/");
+		WebElement ulElement = ElementHelper.waitAndFindElementById(driver,
+				idClasses, DEFAULT_TIMEOUT);
+
+		assertNotNull("Ul Element not found", ulElement);
+		assertEquals("ul", ulElement.getTagName());
 	}
 
 }

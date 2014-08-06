@@ -13,7 +13,7 @@ import com.nanuvem.restest.TypedResource;
 
 public class ClassResource extends TypedResource<Clazz> {
 
-	private static String CLASSES = "http://localhost:8080/lomgui/api/data/class";
+	private static final String CLASSES = "http://localhost:8080/lomgui/api/data/class";
 
 
 	public ClassResource() {
@@ -22,12 +22,8 @@ public class ClassResource extends TypedResource<Clazz> {
 
 	@Override
 	protected String toJson(Clazz clazz) {
-		ObjectNode clazzNode = clazz2json(clazz);
+		ObjectNode clazzNode = clazz.getJson();
 		return clazzNode.toString();
-	}
-
-	private static ObjectNode clazz2json(Clazz clazz) {
-		return clazz.getJson();
 	}
 
 	@Override

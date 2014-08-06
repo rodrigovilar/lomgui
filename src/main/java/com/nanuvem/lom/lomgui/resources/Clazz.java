@@ -1,10 +1,10 @@
 package com.nanuvem.lom.lomgui.resources;
 
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
 
-public class Clazz {
+
+public class Clazz extends JSONBean{
 
 	private Long id;
 	private Integer version;
@@ -60,33 +60,15 @@ public class Clazz {
 	}
 
 	public ObjectNode getJson() {
-		ObjectNode classNode = JsonNodeFactory.instance.objectNode();
-		classNode.put("id", getId());
-		classNode.put("name", getName());
-		classNode.put("namespace", "");
+		ObjectNode classNode = super.getJson();
 		classNode.put("fullName", getFullName());
 		return classNode;
 	}
 	
-	public void setValuesFromJson(JsonNode clazzJSON) {
-		if (clazzJSON.has("id")) {
-			this.setId(clazzJSON.get("id").getLongValue());
-		}
-		if (clazzJSON.has("version")) {
-			this.setVersion(clazzJSON.get("version").getIntValue());
-		}
-		if (clazzJSON.has("name")) {
-			this.setName(clazzJSON.get("name").getTextValue());
-		}
-		if (clazzJSON.has("namespace")) {
-			this.setNamespace(clazzJSON.get("namespace").getTextValue());
-		}
-	}
-
 	public static Clazz clazzFromJson(JsonNode clazzJSON) {
 		Clazz clazz = new Clazz();
 		clazz.setValuesFromJson(clazzJSON);
 		return clazz;
 	}
-
+	
 }

@@ -18,7 +18,7 @@ public class WidgetStoreFacade {
 	
 	private WidgetStoreFacade() {
 		widgetsMapping = new HashMap<String, String>();
-		widgetsMapping.put("root", "UlRootWidget");
+		widgetsMapping.put("root", "TableRootWidget");
 	}
 	
 	public String getWidget(String type) {
