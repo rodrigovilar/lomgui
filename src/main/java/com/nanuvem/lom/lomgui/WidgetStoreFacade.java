@@ -1,7 +1,13 @@
 package com.nanuvem.lom.lomgui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import com.nanuvem.lom.lomgui.resources.Widget;
 
 public class WidgetStoreFacade {
 
@@ -14,19 +20,43 @@ public class WidgetStoreFacade {
 		return WidgetStoreFacade.singleton;
 	}
 
-	private Map<String, String> widgetsMapping;
+	private Set<Widget> widgets;
+	private Map<String, Widget> widgetsMapping;
 	
 	private WidgetStoreFacade() {
-		widgetsMapping = new HashMap<String, String>();
-		widgetsMapping.put("root", "TableRootWidget");
+		widgets = new HashSet<Widget>();
+		widgetsMapping = new HashMap<String, Widget>();
+		Widget defaultRootWidget = new Widget("TableRootWidget", "TableRootWidget");
+		addWidget(defaultRootWidget);
+		widgetsMapping.put("root", defaultRootWidget);
 	}
 	
-	public String getWidget(String type) {
-		return widgetsMapping.get(type);
+	public void addWidget(Widget widget){
+		widgets.add(widget);
 	}
 	
-	public void setWidget(String type, String widgetName) {
-		widgetsMapping.put(type, widgetName);
+	public void removeWidget(Widget widget){
+		widgets.remove(widget);
+	}
+	
+	public List<Widget> getAllWidgets(){
+		return new ArrayList<Widget>(widgets);
+	}
+	
+	public Widget getWidgetFromName(String name){
+		for(Widget widget : widgets){
+			if(widget.getName().equals(name))
+				return widget;
+		}
+		return null;
+	}
+	
+	public Widget getWidgetFromTarget(String target) {
+		return widgetsMapping.get(target);
+	}
+	
+	public void setWidgetToTarget(String target, Widget widget) {
+		widgetsMapping.put(target, widget);
 	}
 
 }
