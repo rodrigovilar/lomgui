@@ -41,14 +41,7 @@ public class Widget extends JSONBean {
 	
 	@Override
 	public int hashCode() {
-		System.out.println("Agora sim");
-		return super.hashCode();
-	}
-	
-	@Override
-	public String toString() {
-		System.out.println("Aop2");
-		return super.toString();
+		return name.hashCode();
 	}
 	
 	@Override
@@ -56,12 +49,6 @@ public class Widget extends JSONBean {
 		if (obj instanceof Widget)
 			return name.equals(((Widget) obj).getName());
 		return false;
-	}
-
-	@Override
-	public int compareTo(Widget o) {
-		System.out.println("Aki");
-		return 0;
 	}
 
 }
