@@ -4,6 +4,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -14,6 +15,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
+
+import com.nanuvem.lom.lomgui.resources.Clazz;
 
 @Path("data")
 public class BusinessServiceAdapter {
@@ -49,6 +52,15 @@ public class BusinessServiceAdapter {
 		LomBusinessFacade.getInstance().removeAllClazz();
 		return Response.ok().build();
 	}
+
+	@DELETE
+	@Path("/class/{id}")
+	public Response deleteClass(@PathParam("id") Long id) {
+		if(LomBusinessFacade.getInstance().removeClazz(id))
+			return Response.ok().build();
+		return Response.notAcceptable(null).build();
+	}
+
 	
 	private JsonNode jsonNodeFromString(String json) throws Exception {
 		ObjectMapper objectMapper = new ObjectMapper();

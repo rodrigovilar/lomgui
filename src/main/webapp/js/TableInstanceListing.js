@@ -67,7 +67,7 @@
         return trbody.append(td);
       });
       return trbody.click(function() {
-        return LOM.loadScript('api/widget/class/' + classFullName + '/instance/' + instance.id, {
+        return LOM.loadScript('api/widget/class/' + classFullName + '/edit', {
           classFullName: classFullName,
           id: instance.id
         });
