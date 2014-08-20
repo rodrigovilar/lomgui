@@ -23,11 +23,11 @@ public class LomBusinessFacade {
 		this.classes = new HashMap<Long, Clazz>();
 	}
 
-	public void addClazz(Clazz clazz){
+	public void addClass(Clazz clazz){
 		this.classes.put(clazz.getId(), clazz);
 	}
 
-	public Clazz getClazz(String name){
+	public Clazz getClass(String name){
 		for(Clazz clazz : this.classes.values()){
 			if(clazz.getName().equals(name)){
 				return clazz;
@@ -36,28 +36,28 @@ public class LomBusinessFacade {
 		return null;
 	}
 
-	public Clazz getClazz(Long id){
+	public Clazz getClass(Long id){
 		return this.classes.get(id);
 	}
 
-	public Collection<Clazz> getAllClazz(){
+	public Collection<Clazz> getAllClasses(){
 		return classes.values();
 	}
 
-	public boolean removeClazz(String name){
+	public boolean removeClass(String name){
 		for(Clazz clazz : this.classes.values()){
 			if(clazz.getName().equals(name)){
-				return removeClazz(clazz.getId());
+				return removeClass(clazz.getId());
 			}
 		}
 		return false;
 	}
 
-	public boolean removeClazz(Long id){
+	public boolean removeClass(Long id){
 		return this.classes.remove(id) != null;
 	}
 
-	public void removeAllClazz(){
+	public void removeAllClasses(){
 		this.classes.clear();
 	}
 

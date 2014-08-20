@@ -27,7 +27,7 @@ public class BusinessServiceAdapter {
 	public String getClasses() {
 		ArrayNode noClasses = JsonNodeFactory.instance.arrayNode();
 
-		for (Clazz clazz : LomBusinessFacade.getInstance().getAllClazz()) {
+		for (Clazz clazz : LomBusinessFacade.getInstance().getAllClasses()) {
 			noClasses.add(clazz.getJson());
 		}
 
@@ -39,7 +39,7 @@ public class BusinessServiceAdapter {
 	public Response addClass(String json) {
 		try {
 			ObjectNode clazzJson = (ObjectNode) jsonNodeFromString(json);
-			LomBusinessFacade.getInstance().addClazz(Clazz.clazzFromJson(clazzJson));
+			LomBusinessFacade.getInstance().addClass(Clazz.clazzFromJson(clazzJson));
 			return Response.created(null).build();
 		} catch (Exception e) {
 			return Response.notAcceptable(null).build();
@@ -49,14 +49,14 @@ public class BusinessServiceAdapter {
 	@DELETE
 	@Path("/class")
 	public Response deleteAllClasses() {
-		LomBusinessFacade.getInstance().removeAllClazz();
+		LomBusinessFacade.getInstance().removeAllClasses();
 		return Response.ok().build();
 	}
 
 	@DELETE
 	@Path("/class/{id}")
 	public Response deleteClass(@PathParam("id") Long id) {
-		if(LomBusinessFacade.getInstance().removeClazz(id))
+		if(LomBusinessFacade.getInstance().removeClass(id))
 			return Response.ok().build();
 		return Response.notAcceptable(null).build();
 	}
