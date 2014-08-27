@@ -36,8 +36,8 @@ public class ClassResource extends TypedResource<Clazz> {
 
 			List<Clazz> classes = new ArrayList<Clazz>();
 			for (JsonNode clazzJSON : classesJSON) {
-				Clazz usuario = Clazz.clazzFromJson(clazzJSON);
-				classes.add(usuario);
+				Clazz clazz = Clazz.clazzFromJson(clazzJSON);
+				classes.add(clazz);
 			}
 			return classes;
 		} catch (Exception e) {

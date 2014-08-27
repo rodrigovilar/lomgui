@@ -3,6 +3,11 @@ package com.nanuvem.lom.lomgui.resources;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
 
+/**
+ * This class represent a entity Class
+ * @author Delano Oliveira
+ *
+ */
 
 public class Clazz extends JSONBean{
 

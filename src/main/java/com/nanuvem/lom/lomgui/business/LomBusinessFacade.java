@@ -1,14 +1,20 @@
 package com.nanuvem.lom.lomgui.business;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.nanuvem.lom.lomgui.resources.Attribute;
 import com.nanuvem.lom.lomgui.resources.Clazz;
 
 public class LomBusinessFacade {
 
 	private static LomBusinessFacade singleton;
+	
+	private static Long classesCounter = 0l;
+	private static Long attributesCounter = 0l;
 
 	public static LomBusinessFacade getInstance(){
 		if(LomBusinessFacade.singleton == null){
@@ -18,18 +24,29 @@ public class LomBusinessFacade {
 	}
 
 	private Map<Long, Clazz> classes;
+	private Map<Long, Attribute> attributes;
 
 	private LomBusinessFacade() {
 		this.classes = new HashMap<Long, Clazz>();
+		this.attributes = new HashMap<Long, Attribute>();
+		mock();
 	}
 
-	public void addClass(Clazz clazz){
+	private void mock() {
+		Clazz aClazz = new Clazz();
+		aClazz.setName("Widget");
+		addClass(aClazz);
+	}
+
+	public Clazz addClass(Clazz clazz){
+		clazz.setId(classesCounter++);
 		this.classes.put(clazz.getId(), clazz);
+		return clazz;
 	}
 
-	public Clazz getClass(String name){
+	public Clazz getClass(String fullname){
 		for(Clazz clazz : this.classes.values()){
-			if(clazz.getName().equals(name)){
+			if(clazz.getFullName().equals(fullname)){
 				return clazz;
 			}
 		}
@@ -59,6 +76,26 @@ public class LomBusinessFacade {
 
 	public void removeAllClasses(){
 		this.classes.clear();
+	}
+	
+	public Attribute addAttribute(Attribute attribute){
+		attribute.setId(attributesCounter++);
+		this.attributes.put(attribute.getId(), attribute);
+		return attribute;
+	}
+	
+	public Attribute getAttribute(Long id){
+		return attributes.get(id);
+	}
+	
+	public List<Attribute> getAttributeByClassID(Long classID){
+		ArrayList<Attribute> classAttributes = new ArrayList<Attribute>();
+		for(Attribute attribute : attributes.values()){
+			if(attribute.getClassID() == classID){
+				classAttributes.add(attribute);
+			}
+		}
+		return classAttributes;
 	}
 
 

@@ -28,7 +28,11 @@ public class WidgetStoreFacade {
 		widgetsMapping = new HashMap<String, Widget>();
 		Widget defaultRootWidget = new Widget("TableRootWidget", "TableRootWidget");
 		addWidget(defaultRootWidget);
+		Widget defaultClassWidget = new Widget("TableClassListingWidget", "TableClassListingWidget");
+		addWidget(defaultRootWidget);
+		addWidget(defaultClassWidget);
 		widgetsMapping.put("root", defaultRootWidget);
+		widgetsMapping.put("class", defaultClassWidget);
 	}
 	
 	public void addWidget(Widget widget){

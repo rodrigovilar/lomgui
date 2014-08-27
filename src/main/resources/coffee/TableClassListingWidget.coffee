@@ -1,4 +1,4 @@
-class TableInstanceListing
+class TableClassListingWidget
 
 	init: (conf) ->
 		LOM.getJSON "api/data/class/#{conf.classFullName}/attributes", (attributes) =>
@@ -46,4 +46,4 @@ class TableInstanceListing
 				classFullName: classFullName
 				id: instance.id
 
-return new TableInstanceListing
+return new TableClassListingWidget
