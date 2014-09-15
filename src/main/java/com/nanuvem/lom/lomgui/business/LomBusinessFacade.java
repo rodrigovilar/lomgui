@@ -97,6 +97,14 @@ public class LomBusinessFacade {
 		}
 		return classAttributes;
 	}
+	
+	public boolean removeAttribute(Long id){
+		return this.attributes.remove(id) != null;
+	}
+	
+	public Collection<Attribute> getAllAttributes(){
+		return attributes.values();
+	}
 
 
 }

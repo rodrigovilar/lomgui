@@ -71,7 +71,7 @@ public class BusinessServiceAdapter {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/class/{fullName}/attributes")
-	public String getAttributes(@PathParam("fullName") String fullName) {
+	public String getAttributesFromClass(@PathParam("fullName") String fullName) {
 		Clazz clazz = LomBusinessFacade.getInstance().getClass(fullName);
 		ArrayNode attributesNode = JsonNodeFactory.instance.arrayNode();
 		if(clazz != null){
@@ -85,7 +85,7 @@ public class BusinessServiceAdapter {
 	
 	@POST
 	@Path("/class/{fullName}/attributes")
-	public Response addAttribute(@PathParam("fullName") String fullName, String json) {
+	public Response addAttributeToClass(@PathParam("fullName") String fullName, String json) {
 		Clazz clazz = LomBusinessFacade.getInstance().getClass(fullName);
 		if(clazz != null){
 			try {
@@ -110,6 +110,44 @@ public class BusinessServiceAdapter {
 	public String getInstances(@PathParam("fullName") String fullName) {
 		ArrayNode instancesNode = JsonNodeFactory.instance.arrayNode();
 		return instancesNode.toString();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/attribute")
+	public String getAttributes() {
+		ArrayNode noAttributes = JsonNodeFactory.instance.arrayNode();
+
+		for (Attribute attribute : LomBusinessFacade.getInstance().getAllAttributes()) {
+			noAttributes.add(attribute.getJson());
+		}
+
+		return noAttributes.toString();
+	}
+	
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/attribute")
+	public Response addAttributes(String json) {
+		try {
+			ObjectNode attributeJson = (ObjectNode) jsonNodeFromString(json);
+			Attribute attribute = LomBusinessFacade.getInstance().addAttribute(Attribute.attributeFromJson(attributeJson));
+			ResponseBuilderImpl builder = new ResponseBuilderImpl();
+			builder.status(201);
+			builder.entity(attribute.getJson().toString());
+			return builder.build();
+		} catch (Exception e) {
+			return Response.notAcceptable(null).build();
+		}
+	}
+	
+	@DELETE
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/attribute/{id}")
+	public Response deleteAttribute(@PathParam("id") Long id) {
+		if(LomBusinessFacade.getInstance().removeAttribute(id))
+			return Response.ok().build();
+		return Response.notAcceptable(null).build();
 	}
 
 	
