@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.nanuvem.lom.lomgui.resources.Attribute;
 import com.nanuvem.lom.lomgui.resources.Clazz;
+import com.nanuvem.lom.lomgui.resources.Instance;
 
 public class LomBusinessFacade {
 
@@ -15,6 +16,7 @@ public class LomBusinessFacade {
 	
 	private static Long classesCounter = 0l;
 	private static Long attributesCounter = 0l;
+	private static Long instancesCounter = 0l;
 
 	public static LomBusinessFacade getInstance(){
 		if(LomBusinessFacade.singleton == null){
@@ -25,10 +27,12 @@ public class LomBusinessFacade {
 
 	private Map<Long, Clazz> classes;
 	private Map<Long, Attribute> attributes;
+	private Map<Long, Instance> instances;
 
 	private LomBusinessFacade() {
 		this.classes = new HashMap<Long, Clazz>();
 		this.attributes = new HashMap<Long, Attribute>();
+		this.instances = new HashMap<Long, Instance>();
 		mock();
 	}
 
@@ -36,6 +40,12 @@ public class LomBusinessFacade {
 		Clazz aClazz = new Clazz();
 		aClazz.setName("Widget");
 		addClass(aClazz);
+		
+		Attribute attributeName = new Attribute();
+		attributeName.setClassID(aClazz.getId());
+		attributeName.setName("nome");
+		addAttribute(attributeName);
+		
 	}
 
 	public Clazz addClass(Clazz clazz){
@@ -88,7 +98,7 @@ public class LomBusinessFacade {
 		return attributes.get(id);
 	}
 	
-	public List<Attribute> getAttributeByClassID(Long classID){
+	public List<Attribute> getAttributesByClassID(Long classID){
 		ArrayList<Attribute> classAttributes = new ArrayList<Attribute>();
 		for(Attribute attribute : attributes.values()){
 			if(attribute.getClassID() == classID){
@@ -104,6 +114,34 @@ public class LomBusinessFacade {
 	
 	public Collection<Attribute> getAllAttributes(){
 		return attributes.values();
+	}
+	
+	public Instance addInstance(Instance instance){
+		instance.setId(instancesCounter++);
+		this.instances.put(instance.getId(), instance);
+		return instance;
+	}
+	
+	public Instance getInstance(Long id){
+		return instances.get(id);
+	}
+	
+	public List<Instance> getInstancesByClassID(Long classID){
+		ArrayList<Instance> classInstances = new ArrayList<Instance>();
+		for(Instance instance : instances.values()){
+			if(instance.getClassID() == classID){
+				classInstances.add(instance);
+			}
+		}
+		return classInstances;
+	}
+	
+	public boolean removeInstance(Long id){
+		return this.instances.remove(id) != null;
+	}
+	
+	public Collection<Instance> getAllInstances(){
+		return instances.values();
 	}
 
 

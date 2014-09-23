@@ -20,6 +20,7 @@ import org.codehaus.jackson.node.ObjectNode;
 
 import com.nanuvem.lom.lomgui.resources.Attribute;
 import com.nanuvem.lom.lomgui.resources.Clazz;
+import com.nanuvem.lom.lomgui.resources.Instance;
 import com.sun.jersey.core.spi.factory.ResponseBuilderImpl;
 
 @Path("data")
@@ -75,7 +76,7 @@ public class BusinessServiceAdapter {
 		Clazz clazz = LomBusinessFacade.getInstance().getClass(fullName);
 		ArrayNode attributesNode = JsonNodeFactory.instance.arrayNode();
 		if(clazz != null){
-			List<Attribute> attributes = LomBusinessFacade.getInstance().getAttributeByClassID(clazz.getId());
+			List<Attribute> attributes = LomBusinessFacade.getInstance().getAttributesByClassID(clazz.getId());
 			for(Attribute attribute : attributes){
 				attributesNode.add(attribute.getJson());
 			}
@@ -108,8 +109,36 @@ public class BusinessServiceAdapter {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/class/{fullName}/instances")
 	public String getInstances(@PathParam("fullName") String fullName) {
+		Clazz clazz = LomBusinessFacade.getInstance().getClass(fullName);
 		ArrayNode instancesNode = JsonNodeFactory.instance.arrayNode();
+		if(clazz != null){
+			List<Instance> instances = LomBusinessFacade.getInstance().getInstancesByClassID(clazz.getId());
+			for(Instance instance : instances){
+				instancesNode.add(instance.getJson());
+			}
+		}
 		return instancesNode.toString();
+	}
+	
+	@POST
+	@Path("/class/{fullName}/instances")
+	public Response addInstanceToClass(@PathParam("fullName") String fullName, String json) {
+		Clazz clazz = LomBusinessFacade.getInstance().getClass(fullName);
+		if(clazz != null){
+			try {
+				ObjectNode instanceJson = (ObjectNode) jsonNodeFromString(json);
+				Instance instance = Instance.instanceFromJson(instanceJson);
+				instance.setClassID(clazz.getId());
+				instance = LomBusinessFacade.getInstance().addInstance(instance);
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(201);
+				builder.entity(instance.getJson().toString());
+				return builder.build();
+			} catch (Exception e) {
+				return Response.notAcceptable(null).build();
+			}
+		}
+		return Response.notAcceptable(null).build();
 	}
 	
 	@GET
@@ -128,7 +157,7 @@ public class BusinessServiceAdapter {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/attribute")
-	public Response addAttributes(String json) {
+	public Response addAttribute(String json) {
 		try {
 			ObjectNode attributeJson = (ObjectNode) jsonNodeFromString(json);
 			Attribute attribute = LomBusinessFacade.getInstance().addAttribute(Attribute.attributeFromJson(attributeJson));
@@ -146,6 +175,31 @@ public class BusinessServiceAdapter {
 	@Path("/attribute/{id}")
 	public Response deleteAttribute(@PathParam("id") Long id) {
 		if(LomBusinessFacade.getInstance().removeAttribute(id))
+			return Response.ok().build();
+		return Response.notAcceptable(null).build();
+	}
+
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/instance")
+	public Response addInstance(String json) {
+		try {
+			ObjectNode instanceJson = (ObjectNode) jsonNodeFromString(json);
+			Instance instance = LomBusinessFacade.getInstance().addInstance(Instance.instanceFromJson(instanceJson));
+			ResponseBuilderImpl builder = new ResponseBuilderImpl();
+			builder.status(201);
+			builder.entity(instance.getJson().toString());
+			return builder.build();
+		} catch (Exception e) {
+			return Response.notAcceptable(null).build();
+		}
+	}
+	
+	@DELETE
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/attribute/{id}")
+	public Response deleteInstance(@PathParam("id") Long id) {
+		if(LomBusinessFacade.getInstance().removeInstance(id))
 			return Response.ok().build();
 		return Response.notAcceptable(null).build();
 	}
