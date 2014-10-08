@@ -2,6 +2,12 @@ package com.nanuvem.lom.lomgui.resources;
 
 import org.codehaus.jackson.JsonNode;
 
+/**
+ * This class represent a Widget
+ * @author delano
+ *
+ */
+
 public class Widget extends JSONBean {
 
 	private String name;

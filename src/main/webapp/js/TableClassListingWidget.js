@@ -1,18 +1,18 @@
 (function() {
-  var TableInstanceListing;
+  var TableClassListingWidget;
 
-  TableInstanceListing = (function() {
+  TableClassListingWidget = (function() {
 
-    function TableInstanceListing() {}
+    function TableClassListingWidget() {}
 
-    TableInstanceListing.prototype.init = function(conf) {
+    TableClassListingWidget.prototype.init = function(conf) {
       var _this = this;
       return LOM.getJSON("api/data/class/" + conf.classFullName + "/attributes", function(attributes) {
         return _this.drawTable(attributes, conf.classFullName);
       });
     };
 
-    TableInstanceListing.prototype.drawTable = function(attributesJson, classFullName) {
+    TableClassListingWidget.prototype.drawTable = function(attributesJson, classFullName) {
       var table,
         _this = this;
       this.page = LOM.emptyPage();
@@ -24,7 +24,7 @@
       });
     };
 
-    TableInstanceListing.prototype.buildTableHead = function(attributesJson, table) {
+    TableClassListingWidget.prototype.buildTableHead = function(attributesJson, table) {
       var thead, trHead;
       thead = $("<thead>");
       table.append(thead);
@@ -39,7 +39,7 @@
       });
     };
 
-    TableInstanceListing.prototype.buildTableBody = function(instancesJson, attributesJson, table, classFullName) {
+    TableClassListingWidget.prototype.buildTableBody = function(instancesJson, attributesJson, table, classFullName) {
       var tbody,
         _this = this;
       if (instancesJson.length > 0) {
@@ -54,7 +54,7 @@
       }
     };
 
-    TableInstanceListing.prototype.buildTableLine = function(instance, attributesJson, tbody, classFullName) {
+    TableClassListingWidget.prototype.buildTableLine = function(instance, attributesJson, tbody, classFullName) {
       var trbody,
         _this = this;
       trbody = $("<tr>");
@@ -74,10 +74,10 @@
       });
     };
 
-    return TableInstanceListing;
+    return TableClassListingWidget;
 
   })();
 
-  return new TableInstanceListing;
+  return new TableClassListingWidget;
 
 }).call(this);

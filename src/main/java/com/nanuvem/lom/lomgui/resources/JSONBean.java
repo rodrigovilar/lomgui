@@ -8,6 +8,12 @@ import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.NullNode;
 import org.codehaus.jackson.node.ObjectNode;
 
+/**
+ * This class automatically methods to get a JSON from a Bean and contrariwise. 
+ * @author Delano Oliveira
+ *
+ */
+
 public class JSONBean {
 
 	public ObjectNode getJson() {
